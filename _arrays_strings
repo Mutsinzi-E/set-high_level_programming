@@ -1,0 +1,517 @@
+
+                   SSUUMMMMAARRYY OOFF LLEESSSS CCOOMMMMAANNDDSS
+
+      Commands marked with * may be preceded by a number, _N.
+      Notes in parentheses indicate the behavior if _N is given.
+      A key preceded by a caret indicates the Ctrl key; thus ^K is ctrl-K.
+
+  h  H                 Display this help.
+  q  :q  Q  :Q  ZZ     Exit.
+ ---------------------------------------------------------------------------
+
+                           MMOOVVIINNGG
+
+  e  ^E  j  ^N  CR  *  Forward  one line   (or _N lines).
+  y  ^Y  k  ^K  ^P  *  Backward one line   (or _N lines).
+  f  ^F  ^V  SPACE  *  Forward  one window (or _N lines).
+  b  ^B  ESC-v      *  Backward one window (or _N lines).
+  z                 *  Forward  one window (and set window to _N).
+  w                 *  Backward one window (and set window to _N).
+  ESC-SPACE         *  Forward  one window, but don't stop at end-of-file.
+  d  ^D             *  Forward  one half-window (and set half-window to _N).
+  u  ^U             *  Backward one half-window (and set half-window to _N).
+  ESC-)  RightArrow *  Right one half screen width (or _N positions).
+  ESC-(  LeftArrow  *  Left  one half screen width (or _N positions).
+  ESC-}  ^RightArrow   Right to last column displayed.
+  ESC-{  ^LeftArrow    Left  to first column.
+  F                    Forward forever; like "tail -f".
+  ESC-F                Like F but stop when search pattern is found.
+  r  ^R  ^L            Repaint screen.
+  R                    Repaint screen, discarding buffered input.
+        ---------------------------------------------------
+        Default "window" is the screen height.
+        Default "half-window" is half of the screen height.
+ ---------------------------------------------------------------------------
+
+                          SSEEAARRCCHHIINNGG
+
+  /_p_a_t_t_e_r_n          *  Search forward for (_N-th) matching line.
+  ?_p_a_t_t_e_r_n          *  Search backward for (_N-th) matching line.
+  n                 *  Repeat previous search (for _N-th occurrence).
+  N                 *  Repeat previous search in reverse direction.
+  ESC-n             *  Repeat previous search, spanning files.
+  ESC-N             *  Repeat previous search, reverse dir. & spanning files.
+  ESC-u                Undo (toggle) search highlighting.
+  ESC-U                Clear search highlighting.
+  &_p_a_t_t_e_r_n          *  Display only matching lines.
+        ---------------------------------------------------
+        A search pattern may begin with one or more of:
+        ^N or !  Search for NON-matching lines.
+        ^E or *  Search multiple files (pass thru END OF FILE).
+        ^F or @  Start search at FIRST file (for /) or last file (for ?).
+        ^K       Highlight matches, but don't move (KEEP position).
+        ^R       Don't use REGULAR EXPRESSIONS.
+        ^W       WRAP search if no match found.
+ ---------------------------------------------------------------------------
+
+                           JJUUMMPPIINNGG
+
+  g  <  ESC-<       *  Go to first line in file (or line _N).
+  G  >  ESC->       *  Go to last line in file (or line _N).
+  p  %              *  Go to beginning of file (or _N percent into file).
+  t                 *  Go to the (_N-th) next tag.
+  T                 *  Go to the (_N-th) previous tag.
+  {  (  [           *  Find close bracket } ) ].
+  }  )  ]           *  Find open bracket { ( [.
+  ESC-^F _<_c_1_> _<_c_2_>  *  Find close bracket _<_c_2_>.
+  ESC-^B _<_c_1_> _<_c_2_>  *  Find open bracket _<_c_1_>.
+        ---------------------------------------------------
+        Each "find close bracket" command goes forward to the close bracket 
+          matching the (_N-th) open bracket in the top line.
+        Each "find open bracket" command goes backward to the open bracket 
+          matching the (_N-th) close bracket in the bottom line.
+
+  m_<_l_e_t_t_e_r_>            Mark the current top line with <letter>.
+  M_<_l_e_t_t_e_r_>            Mark the current bottom line with <letter>.
+  '_<_l_e_t_t_e_r_>            Go to a previously marked position.
+  ''                   Go to the previous position.
+  ^X^X                 Same as '.
+  ESC-M_<_l_e_t_t_e_r_>        Clear a mark.
+        ---------------------------------------------------
+        A mark is any upper-case or lower-case letter.
+        Certain marks are predefined:
+             ^  means  beginning of the file
+             $  means  end of the file
+ ---------------------------------------------------------------------------
+
+                        CCHHAANNGGIINNGG FFIILLEESS
+
+  :e [_f_i_l_e]            Examine a new file.
+  ^X^V                 Same as :e.
+  :n                *  Examine the (_N-th) next file from the command line.
+  :p                *  Examine the (_N-th) previous file from the command line.
+  :x                *  Examine the first (or _N-th) file from the command line.
+  :d                   Delete the current file from the command line list.
+  =  ^G  :f            Print current file name.
+ ---------------------------------------------------------------------------
+
+                    MMIISSCCEELLLLAANNEEOOUUSS CCOOMMMMAANNDDSS
+
+  -_<_f_l_a_g_>              Toggle a command line option [see OPTIONS below].
+  --_<_n_a_m_e_>             Toggle a command line option, by name.
+  __<_f_l_a_g_>              Display the setting of a command line option.
+  ___<_n_a_m_e_>             Display the setting of an option, by name.
+  +_c_m_d                 Execute the less cmd each time a new file is examined.
+
+  !_c_o_m_m_a_n_d             Execute the shell command with $SHELL.
+  |XX_c_o_m_m_a_n_d            Pipe file between current pos & mark XX to shell command.
+  s _f_i_l_e               Save input to a file.
+  v                    Edit the current file with $VISUAL or $EDITOR.
+  V                    Print version number of "less".
+ ---------------------------------------------------------------------------
+
+                           OOPPTTIIOONNSS
+
+        Most options may be changed either on the command line,
+        or from within less by using the - or -- command.
+        Options may be given in one of two forms: either a single
+        character preceded by a -, or a name preceded by --.
+
+  -?  ........  --help
+                  Display help (from command line).
+  -a  ........  --search-skip-screen
+                  Search skips current screen.
+  -A  ........  --SEARCH-SKIP-SCREEN
+                  Search starts just after target line.
+  -b [_N]  ....  --buffers=[_N]
+                  Number of buffers.
+  -B  ........  --auto-buffers
+                  Don't automatically allocate buffers for pipes.
+  -c  ........  --clear-screen
+                  Repaint by clearing rather than scrolling.
+  -d  ........  --dumb
+                  Dumb terminal.
+  -D xx_c_o_l_o_r  .  --color=xx_c_o_l_o_r
+                  Set screen colors.
+  -e  -E  ....  --quit-at-eof  --QUIT-AT-EOF
+                  Quit at end of file.
+  -f  ........  --force
+                  Force open non-regular files.
+  -F  ........  --quit-if-one-screen
+                  Quit if entire file fits on first screen.
+  -g  ........  --hilite-search
+                  Highlight only last match for searches.
+  -G  ........  --HILITE-SEARCH
+                  Don't highlight any matches for searches.
+  -h [_N]  ....  --max-back-scroll=[_N]
+                  Backward scroll limit.
+  -i  ........  --ignore-case
+                  Ignore case in searches that do not contain uppercase.
+  -I  ........  --IGNORE-CASE
+                  Ignore case in all searches.
+  -j [_N]  ....  --jump-target=[_N]
+                  Screen position of target lines.
+  -J  ........  --status-column
+                  Display a status column at left edge of screen.
+  -k [_f_i_l_e]  .  --lesskey-file=[_f_i_l_e]
+                  Use a lesskey file.
+  -K  ........  --quit-on-intr
+                  Exit less in response to ctrl-C.
+  -L  ........  --no-lessopen
+                  Ignore the LESSOPEN environment variable.
+  -m  -M  ....  --long-prompt  --LONG-PROMPT
+                  Set prompt style.
+  -n  -N  ....  --line-numbers  --LINE-NUMBERS
+                  Don't use line numbers.
+  -o [_f_i_l_e]  .  --log-file=[_f_i_l_e]
+                  Copy to log file (standard input only).
+  -O [_f_i_l_e]  .  --LOG-FILE=[_f_i_l_e]
+                  Copy to log file (unconditionally overwrite).
+  -p [_p_a_t_t_e_r_n]  --pattern=[_p_a_t_t_e_r_n]
+                  Start at pattern (from command line).
+  -P [_p_r_o_m_p_t]   --prompt=[_p_r_o_m_p_t]
+                  Define new prompt.
+  -q  -Q  ....  --quiet  --QUIET  --silent --SILENT
+                  Quiet the terminal bell.
+  -r  -R  ....  --raw-control-chars  --RAW-CONTROL-CHARS
+                  Output "raw" control characters.
+  -s  ........  --squeeze-blank-lines
+                  Squeeze multiple blank lines.
+  -S  ........  --chop-long-lines
+                  Chop (truncate) long lines rather than wrapping.
+  -t [_t_a_g]  ..  --tag=[_t_a_g]
+                  Find a tag.
+  -T [_t_a_g_s_f_i_l_e] --tag-file=[_t_a_g_s_f_i_l_e]
+                  Use an alternate tags file.
+  -u  -U  ....  --underline-special  --UNDERLINE-SPECIAL
+                  Change handling of backspaces.
+  -V  ........  --version
+                  Display the version number of "less".
+  -w  ........  --hilite-unread
+                  Highlight first new line after forward-screen.
+  -W  ........  --HILITE-UNREAD
+                  Highlight first new line after any forward movement.
+  -x [_N[,...]]  --tabs=[_N[,...]]
+                  Set tab stops.
+  -X  ........  --no-init
+                  Don't use termcap init/deinit strings.
+  -y [_N]  ....  --max-forw-scroll=[_N]
+                  Forward scroll limit.
+  -z [_N]  ....  --window=[_N]
+                  Set size of window.
+  -" [_c[_c]]  .  --quotes=[_c[_c]]
+                  Set shell quote characters.
+  -~  ........  --tilde
+                  Don't display tildes after end of file.
+  -# [_N]  ....  --shift=[_N]
+                  Set horizontal scroll amount (0 = one half screen width).
+                --file-size
+                  Automatically determine the size of the input file.
+                --follow-name
+                  The F command changes files if the input file is renamed.
+                --incsearch
+                  Search file as each pattern character is typed in.
+                --line-num-width=N
+                  Set the width of the -N line number field to N characters.
+                --mouse
+                  Enable mouse input.
+                --no-keypad
+                  Don't send termcap keypad init/deinit strings.
+                --no-histdups
+                  Remove duplicates from command history.
+                --rscroll=C
+                  Set the character used to mark truncated lines.
+                --save-marks
+                  Retain marks across invocations of less.
+                --status-col-width=N
+                  Set the width of the -J status column to N characters.
+                --use-backslash
+                  Subsequent options use backslash as escape char.
+                --use-color
+                  Enables colored text.
+                --wheel-lines=N
+                  Each click of the mouse wheel moves N lines.
+
+
+ ---------------------------------------------------------------------------
+
+                          LLIINNEE EEDDIITTIINNGG
+
+        These keys can be used to edit text being entered 
+        on the "command line" at the bottom of the screen.
+
+ RightArrow ..................... ESC-l ... Move cursor right one character.
+ LeftArrow ...................... ESC-h ... Move cursor left one character.
+ ctrl-RightArrow  ESC-RightArrow  ESC-w ... Move cursor right one word.
+ ctrl-LeftArrow   ESC-LeftArrow   ESC-b ... Move cursor left one word.
+ HOME ........................... ESC-0 ... Move cursor to start of line.
+ END ............................ ESC-$ ... Move cursor to end of line.
+ BACKSPACE ................................ Delete char to left of cursor.
+ DELETE ......................... ESC-x ... Delete char under cursor.
+ ctrl-BACKSPACE   ESC-BACKSPACE ........... Delete word to left of cursor.
+ ctrl-DELETE .... ESC-DELETE .... ESC-X ... Delete word under cursor.
+ ctrl-U ......... ESC (MS-DOS only) ....... Delete entire line.
+ UpArrow ........................ ESC-k ... Retrieve previous command line.
+ DownArrow ...................... ESC-j ... Retrieve next command line.
+ TAB ...................................... Complete filename & cycle.
+ SHIFT-TAB ...................... ESC-TAB   Complete filename & reverse cycle.
+ ctrl-L ................................... Complete filename, list all.
+[33mcommit 23db1f3bfdc522553b17b81f7ac4922cdddbd95a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 14:05:55 2026 +0000
+
+    0x04: implemented print_triangle function, Betty style
+
+[33mcommit 62b549771c7b7d13c3f4e465dda1c9bc4f89e16a[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 13:50:03 2026 +0000
+
+    0x04: FizzBuzz function implemented with Betty-approved style
+
+[33mcommit be8a64dc6b01158be5fca48a73a7b9674e80892e[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 13:40:52 2026 +0000
+
+    0x04: All functions implemented and Betty approved
+
+[33mcommit d1955b7cef3de9ff117ceb5b3c5eff6b95fbc131[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 13:25:40 2026 +0000
+
+    0x04 all exercises done, Betty compliant
+
+[33mcommit 710af31806be81325d6bec92792bf6eee80d6020[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 12:56:19 2026 +0000
+
+    Task 6: Implement print_line function
+
+[33mcommit cd127a6f35ee35ec13db3236cd74c21fb3a39f1c[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 12:41:23 2026 +0000
+
+    0x04 tasks completed: functions, Betty style, and docs
+
+[33mcommit e81a385584f35d999d553140c65ee2fcf886b8c4[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 12:27:48 2026 +0000
+
+    0x04: Implement print_most_numbers function
+
+[33mcommit 0d2656b57390b249fa5944812718f3a7fc46268f[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 12:09:44 2026 +0000
+
+    0x04: Completed all tasks with Betty style and documentation
+
+[33mcommit a67427f8973db75c7ddb479bdec76e483093a068[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 11:52:05 2026 +0000
+
+    0x04 module: all functions Betty-compliant and tested
+
+[33mcommit 0c875c9f538b8a4ee2e693399dd4a8953e28fbea[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 11:37:42 2026 +0000
+
+    Task 1: _isdigit function - Betty-compliant
+
+[33mcommit d4c72bf2bc4dbfdadc77d0592d5392bde2f54b76[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 11:28:08 2026 +0000
+
+    Task 2: _islower function - fully Betty compliant
+
+[33mcommit d953e982dc718e36ddb693d00db2b5970ad2fbca[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 10:50:59 2026 +0000
+
+    Task 0: _isupper function (clean structure)
+
+[33mcommit b4a9275ce8bb6cb0e223acd9e9caeebe2c357141[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 22 10:42:19 2026 +0000
+
+    Create 0x04 directory and add _isupper function
+
+[33mcommit 22ed5f84250182589d49095adc201e44b7475e49[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Mar 19 15:18:26 2026 +0000
+
+    Fix Betty indentation (tabs not spaces)
+
+[33mcommit d56e33b5d6e23f9732a28f31de05c9a2fe3abbd3[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Mar 19 15:01:47 2026 +0000
+
+    Fix: moved files to correct directory
+
+[33mcommit c56236696bb251403b3d1f5cfc955e3b3a0d9cdb[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Mar 19 14:36:34 2026 +0000
+
+    Task 0: Multiple mains - test zero case
+
+[33mcommit 41dbbb9e14a662da9ae95d126eca3aae3f537f12[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Mar 19 13:10:17 2026 +0000
+
+    Task 0: zero case fixed
+
+[33mcommit b09abf2a2a65e2005eb084a093b9bdcbeb21580f[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Mar 19 13:01:30 2026 +0000
+
+    Task 1: initial submission
+
+[33mcommit 561e5093f769f146c02da8b909a62c687eb8d2bd[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Mar 19 09:57:09 2026 +0000
+
+    Task 0: test zero case
+
+[33mcommit 60549ded392bac1832f3c5508e84e66337cf82c4[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 15 14:44:11 2026 +0000
+
+    0-main.c and main.h ready for checker
+
+[33mcommit 5e7bd58d30a609b444471c608cd60cf9b22ea5d1[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 15 14:22:57 2026 +0000
+
+    Add 0-main.c and main.h to test positive_or_negative with 0
+
+[33mcommit 05e0b23532c4d2a5571671749103e7b62ff78c8e[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 15 13:50:46 2026 +0000
+
+    1-main.c fully fixed: Betty style, 24 lines, infinite loop avoided
+
+[33mcommit 097b98ae097e840b425f4d2d601836584977053f[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 15 13:29:12 2026 +0000
+
+    Fix Betty style for commented while loop
+
+[33mcommit cbbecd71b4348bed3e8019de49fa9fba6b5f1b86[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 15 13:15:02 2026 +0000
+
+    Avoid infinite loop by commenting while block
+
+[33mcommit 14e651c6e79909f9e94b26e9ed1360dc47195a66[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Tue Mar 10 09:11:30 2026 +0000
+
+    Fix Betty style errors in main files
+
+[33mcommit 450abdc5b8eef348e5a4462a04eb7bed2214046a[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Tue Mar 10 08:47:08 2026 +0000
+
+    Fix largest_number prototype and logic
+
+[33mcommit 604c2d784cdab9b23199874f1d54dbe07121b956[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Tue Mar 10 08:35:56 2026 +0000
+
+    Add 0-main.c to test zero case
+
+[33mcommit b089bf91a5541a36a8f42e217e9af8cd03f47ef1[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Mon Mar 9 15:23:43 2026 +0000
+
+    Remove compiled executable from Git tracking
+
+[33mcommit 8bd389508ddee66781214c1269cb5f6120713a09[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Mon Mar 9 15:22:24 2026 +0000
+
+    Add 1-main.c with infinite loop commented out
+
+[33mcommit 7d2878540a755f3643390a296de2f46613f3b6f4[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Mon Mar 9 12:50:33 2026 +0000
+
+    0x03-debugging project: Betty style fixed and all outputs correct
+
+[33mcommit e234eb42243489e39eca1e6e78520ddf58f523dc[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Mon Mar 9 12:11:35 2026 +0000
+
+    Fix largest_number function
+
+[33mcommit 51eb2d6e47afb67115682d716a46d0ee2a8fc626[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Sun Mar 8 11:33:45 2026 +0000
+
+    Fix leap year logic in print_remaining_days for Task 3
+
+[33mcommit c8fbcc4a459541b531f43d0cd9759add4f9a0bdd[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Mar 5 11:40:39 2026 +0000
+
+    Task 0 debugging
+
+[33mcommit 12c056f75f0b4e2b7793daf63fc20513dcb93465[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Mar 5 10:53:16 2026 +0000
+
+    Debugging task 0
+
+[33mcommit a366b863247bf922a620285ece7cc37c2f578fd2[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Tue Mar 3 14:02:00 2026 +0000
+
+    Fix debugging task 0
+
+[33mcommit 7d3c0550761a5f2124fe0fe3eb0869a772eaf5ae[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Feb 26 13:07:20 2026 +0000
+
+    Fix 4-puts program
+
+[33mcommit 4607854826dd6de65544cc840b5db3287cf187ed[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Feb 26 12:35:59 2026 +0000
+
+    Add size program
+
+[33mcommit 4f757e0c88e30b56391e1f4b48bf1adb259644a0[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Feb 26 12:16:45 2026 +0000
+
+    Add 5-printf program
+
+[33mcommit 328be41d74d737012325cd3c493a73c1b02ec1b4[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Thu Feb 26 11:50:40 2026 +0000
+
+    Add script to compile and create cisfun
+
+[33mcommit 388ace66badedc3c0ec4daf5cbc86dcf966afff1[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Wed Feb 25 15:20:30 2026 +0000
+
+    Final correct puts program
+
+[33mcommit 45eaa60af182d92836de94c434dc610efdccf17a[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Wed Feb 25 14:00:22 2026 +0000
+
+    Fix 1-compiler formatting
+
+[33mcommit 1e1ee8cffc8ffcd172ae2460741abfd586db0ecf[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Wed Feb 25 13:40:13 2026 +0000
+
+    Fix puts program
+
+[33mcommit 2a736aec607cb8170664d2e82ecedc1f42d14525[m
+Author: Mutsinzi-E <mutsinzienock56@gmail.com>
+Date:   Wed Feb 25 13:10:05 2026 +0000
+
+    Clean repository files
+
+[33mcommit 5c7810f469d6a0bd1c93
