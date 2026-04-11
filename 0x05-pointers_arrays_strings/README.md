@@ -1,1 +1,1 @@
-nano 0x05-pointers_arrays_strings/README.md
+This project focuses on pointers, arrays, and string manipulation in C.
