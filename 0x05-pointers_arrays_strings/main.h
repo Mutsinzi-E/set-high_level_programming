@@ -3,7 +3,7 @@
 
 int _putchar(char c);
 
-/* other prototypes */
-void puts_half(char *str);
+/* other function prototypes */
+void puts2(char *str);
 
 #endif
