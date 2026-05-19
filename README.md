@@ -1,1 +1,1 @@
-This project contains programs written in C using functions and nested loops.
+This project contains a function that allocates memory using malloc.
