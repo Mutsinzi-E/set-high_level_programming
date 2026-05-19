@@ -1,9 +1,8 @@
-More malloc, free
+More malloc, free project
 
-This project implements dynamic memory allocation functions in C.
+This project contains C functions for dynamic memory allocation.
 
-Task:
+Implemented function:
 - malloc_checked
 
-Description:
 malloc_checked allocates memory using malloc and exits with status 98 if allocation fails.
