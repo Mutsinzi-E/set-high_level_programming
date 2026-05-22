@@ -5,7 +5,7 @@
 
 /**
  * struct listint_s - singly linked list
- * @n: integer stored in the node
+ * @n: integer
  * @next: pointer to next node
  */
 typedef struct listint_s
@@ -24,5 +24,7 @@ size_t listint_len(const listint_t *h);
 
 void free_listint(listint_t *head);
 void free_listint2(listint_t **head);
+
+int pop_listint(listint_t **head);
 
 #endif /* LISTS_H */
