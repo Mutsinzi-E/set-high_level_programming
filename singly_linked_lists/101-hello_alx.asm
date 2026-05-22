@@ -6,9 +6,12 @@ section .text
     extern printf
 
 main:
+    push rbp
+
     mov rdi, msg
-    xor eax, eax
+    xor rax, rax
     call printf
 
     mov eax, 0
+    pop rbp
     ret
