@@ -3,91 +3,52 @@
 #include <stdlib.h>
 
 /**
- * struct listp_s - linked list of pointers
- * @p: pointer to node
- * @next: points to next node
- */
-typedef struct listp_s
-{
-	const void *p;
-	struct listp_s *next;
-} listp_t;
-
-/**
- * free_listp - frees a listp_t list
- * @head: pointer to head
- */
-void free_listp(listp_t *head)
-{
-	listp_t *temp;
-
-	while (head)
-	{
-		temp = head;
-		head = head->next;
-		free(temp);
-	}
-}
-
-/**
- * add_nodep - adds new node address
- * @head: pointer to head
- * @p: pointer to save
+ * check_loop - checks if node was already visited
+ * @node: current node
+ * @visited: array of visited nodes
+ * @size: number of visited nodes
  *
- * Return: address of new node or NULL
+ * Return: 1 if loop found, 0 otherwise
  */
-listp_t *add_nodep(listp_t **head, const void *p)
+int check_loop(const listint_t *node, const listint_t **visited, size_t size)
 {
-	listp_t *new;
+	size_t i;
 
-	new = malloc(sizeof(listp_t));
-	if (!new)
-		exit(98);
-
-	new->p = p;
-	new->next = *head;
-	*head = new;
-
-	return (new);
+	for (i = 0; i < size; i++)
+	{
+		if (visited[i] == node)
+			return (1);
+	}
+	return (0);
 }
 
 /**
  * print_listint_safe - prints a listint_t list safely
- * @head: pointer to list head
+ * @head: pointer to head
  *
  * Return: number of nodes printed
  */
 size_t print_listint_safe(const listint_t *head)
 {
+	const listint_t *visited[1024];
 	size_t count = 0;
-	listp_t *visited = NULL;
-	listp_t *check;
+	size_t i = 0;
 
 	while (head)
 	{
-		check = visited;
-
-		while (check)
+		if (check_loop(head, visited, i))
 		{
-			if (head == check->p)
-			{
-				printf("-> [%p] %d\n",
-					(void *)head, head->n);
-				free_listp(visited);
-				return (count);
-			}
-			check = check->next;
+			printf("-> [%p] %d\n", (void *)head, head->n);
+			return (count);
 		}
 
-		add_nodep(&visited, head);
+		visited[i++] = head;
 
 		printf("[%p] %d\n", (void *)head, head->n);
 		count++;
 
 		head = head->next;
 	}
-
-	free_listp(visited);
 
 	return (count);
 }
