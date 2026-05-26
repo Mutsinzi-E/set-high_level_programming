@@ -3,39 +3,48 @@
 #include <stdio.h>
 
 /**
- * free_listint_safe - frees a listint_t list safely (loop safe)
+ * free_listint_safe - frees a listint_t list safely
  * @h: pointer to head pointer
  *
  * Return: number of nodes freed
  */
 size_t free_listint_safe(listint_t **h)
 {
-	listint_t *node;
-	size_t count = 0;
+	listint_t **seen;
+	size_t i = 0, size = 1024;
 	listint_t *tmp;
+	size_t count = 0;
 
-	if (h == NULL)
+	if (h == NULL || *h == NULL)
 		return (0);
+
+	seen = malloc(sizeof(listint_t *) * size);
+	if (seen == NULL)
+		exit(98);
 
 	while (*h != NULL)
 	{
-		node = *h;
-		tmp = node->next;
-
-		/* break loop safely: if node already seen, stop */
-		if (node == tmp)
+		/* check if already visited */
+		for (i = 0; i < count; i++)
 		{
-			free(node);
-			count++;
-			*h = NULL;
-			return (count);
+			if (seen[i] == *h)
+			{
+				free(seen);
+				*h = NULL;
+				return (count);
+			}
 		}
 
-		free(node);
+		/* store node address */
+		seen[count] = *h;
 		count++;
+
+		/* move and free */
+		tmp = (*h)->next;
+		free(*h);
 		*h = tmp;
 	}
 
-	*h = NULL;
+	free(seen);
 	return (count);
 }
