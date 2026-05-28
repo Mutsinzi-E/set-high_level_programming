@@ -1,10 +1,10 @@
 #include "lists.h"
 
 /**
- * find_listint_loop - finds the loop start in a linked list
+ * find_listint_loop - finds the start of a loop in a linked list
  * @head: pointer to list head
  *
- * Return: address of loop start node or NULL
+ * Return: address of loop start node, or NULL if no loop
  */
 listint_t *find_listint_loop(listint_t *head)
 {
