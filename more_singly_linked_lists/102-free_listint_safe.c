@@ -1,50 +1,44 @@
 #include "lists.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 /**
  * free_listint_safe - frees a listint_t list safely
- * @h: pointer to head pointer
+ * @h: pointer to pointer to head
  *
  * Return: number of nodes freed
  */
 size_t free_listint_safe(listint_t **h)
 {
-	listint_t **seen;
-	size_t i = 0, size = 1024;
-	listint_t *tmp;
+	listint_t *current;
+	listint_t *next;
 	size_t count = 0;
 
 	if (h == NULL || *h == NULL)
 		return (0);
 
-	seen = malloc(sizeof(listint_t *) * size);
-	if (seen == NULL)
-		exit(98);
-
-	while (*h != NULL)
+	while (*h)
 	{
-		/* check if already visited */
-		for (i = 0; i < count; i++)
+		current = *h;
+		next = current->next;
+
+		/*
+		 * detect loop:
+		 * if current address becomes greater than next,
+		 * stop safely after freeing current node
+		 */
+		if (current >= next && next != NULL)
 		{
-			if (seen[i] == *h)
-			{
-				free(seen);
-				*h = NULL;
-				return (count);
-			}
+			free(current);
+			count++;
+			break;
 		}
 
-		/* store node address */
-		seen[count] = *h;
+		free(current);
+		*h = next;
 		count++;
-
-		/* move and free */
-		tmp = (*h)->next;
-		free(*h);
-		*h = tmp;
 	}
 
-	free(seen);
+	*h = NULL;
+
 	return (count);
 }
