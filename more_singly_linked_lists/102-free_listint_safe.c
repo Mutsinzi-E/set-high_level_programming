@@ -2,38 +2,51 @@
 #include <stdlib.h>
 
 /**
- * free_looped_list - frees looped linked list
- * @h: pointer to head
- * @loop: start of loop
+ * loop_len - counts unique nodes in a looped list
+ * @head: pointer to head
  *
- * Return: number of nodes freed
+ * Return: number of unique nodes, 0 if no loop
  */
-size_t free_looped_list(listint_t **h, listint_t *loop)
+size_t loop_len(listint_t *head)
 {
-	listint_t *tmp;
-	size_t count = 0;
+	listint_t *slow, *fast;
+	size_t count = 1;
 
-	while (*h != loop)
+	if (head == NULL || head->next == NULL)
+		return (0);
+
+	slow = head->next;
+	fast = (head->next)->next;
+
+	while (fast && fast->next)
 	{
-		tmp = (*h)->next;
-		free(*h);
-		*h = tmp;
-		count++;
+		if (slow == fast)
+		{
+			slow = head;
+
+			while (slow != fast)
+			{
+				count++;
+				slow = slow->next;
+				fast = fast->next;
+			}
+
+			slow = slow->next;
+
+			while (slow != fast)
+			{
+				count++;
+				slow = slow->next;
+			}
+
+			return (count);
+		}
+
+		slow = slow->next;
+		fast = (fast->next)->next;
 	}
 
-	tmp = loop->next;
-	free(loop);
-	count++;
-
-	while (tmp != loop)
-	{
-		loop = tmp->next;
-		free(tmp);
-		tmp = loop;
-		count++;
-	}
-
-	return (count);
+	return (0);
 }
 
 /**
@@ -44,43 +57,36 @@ size_t free_looped_list(listint_t **h, listint_t *loop)
  */
 size_t free_listint_safe(listint_t **h)
 {
-	listint_t *slow, *fast, *tmp;
-	size_t count = 0;
+	listint_t *tmp;
+	size_t nodes, i;
 
 	if (h == NULL || *h == NULL)
 		return (0);
 
-	slow = *h;
-	fast = *h;
+	nodes = loop_len(*h);
 
-	while (fast && fast->next)
+	if (nodes == 0)
 	{
-		slow = slow->next;
-		fast = fast->next->next;
-
-		if (slow == fast)
+		for (i = 0; *h != NULL; i++)
 		{
-			slow = *h;
-
-			while (slow != fast)
-			{
-				slow = slow->next;
-				fast = fast->next;
-			}
-
-			count = free_looped_list(h, slow);
-			*h = NULL;
-			return (count);
+			tmp = (*h)->next;
+			free(*h);
+			*h = tmp;
 		}
 	}
-
-	while (*h)
+	else
 	{
-		tmp = (*h)->next;
-		free(*h);
-		*h = tmp;
-		count++;
+		for (i = 0; i < nodes; i++)
+		{
+			tmp = (*h)->next;
+			free(*h);
+			*h = tmp;
+		}
+
+		*h = NULL;
 	}
 
-	return (count);
+	h = NULL;
+
+	return (i);
 }
