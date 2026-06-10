@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 /**
  * main - keygen for crackme5
@@ -11,8 +10,7 @@
 int main(int argc, char *argv[])
 {
 	char *u;
-	int i;
-	unsigned long int sum = 0;
+	unsigned int i = 0, sum = 0;
 	char key[7];
 
 	if (argc != 2)
@@ -23,11 +21,14 @@ int main(int argc, char *argv[])
 
 	u = argv[1];
 
-	for (i = 0; u[i]; i++)
-		sum += (u[i] * (i + 7));
+	while (u[i])
+	{
+		sum += u[i] * (i + 1);
+		i++;
+	}
 
 	for (i = 0; i < 6; i++)
-		key[i] = 33 + ((sum + i * 13) % 94);
+		key[i] = 33 + ((sum * (i + 3)) % 94);
 
 	key[6] = '\0';
 
