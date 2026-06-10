@@ -11,7 +11,8 @@
 int main(int argc, char *argv[])
 {
     char *username;
-    int i, sum = 0;
+    unsigned long int hash = 5381;
+    int i;
     char key[7];
 
     if (argc != 2)
@@ -23,10 +24,10 @@ int main(int argc, char *argv[])
     username = argv[1];
 
     for (i = 0; username[i]; i++)
-        sum += (username[i] ^ (i + 1));
+        hash = ((hash << 5) + hash) + username[i];
 
     for (i = 0; i < 6; i++)
-        key[i] = 33 + ((sum * (i + 13)) % 94);
+        key[i] = 33 + ((hash >> (i * 5)) % 94);
 
     key[6] = '\0';
 
