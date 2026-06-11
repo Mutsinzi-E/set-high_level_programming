@@ -1,13 +1,18 @@
 #include "monty.h"
-#include <stdio.h>
 
-void pall(stack_t **stack)
+/**
+ * pall_stack - prints all stack values
+ * @head: pointer to stack head
+ */
+void pall_stack(stack_t **head)
 {
-	stack_t *tmp = *stack;
+	stack_t *temp;
 
-	while (tmp)
+	temp = *head;
+
+	while (temp)
 	{
-		printf("%d\n", tmp->n);
-		tmp = tmp->next;
+		printf("%d\n", temp->n);
+		temp = temp->next;
 	}
 }
