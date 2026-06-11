@@ -7,10 +7,10 @@
 #include <ctype.h>
 
 /**
- * struct stack_s - doubly linked list representation of a stack
- * @n: integer
- * @prev: points to previous element
- * @next: points to next element
+ * struct stack_s - doubly linked list node
+ * @n: integer value
+ * @prev: previous node
+ * @next: next node
  */
 typedef struct stack_s
 {
@@ -19,9 +19,18 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
+/* global stack */
+extern stack_t *stack;
+
+/* core functions */
+void execute(char *line, stack_t **stack, unsigned int line_number);
+
+/* opcodes */
 void push_stack(stack_t **head, int n);
 void pall_stack(stack_t **head);
-void execute(char *line, stack_t **stack, unsigned int line_number);
+
+/* helpers */
 int is_number(char *str);
+void free_stack(stack_t *head);
 
 #endif

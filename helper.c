@@ -1,8 +1,8 @@
 #include "monty.h"
 
 /**
- * is_number - checks if string is an integer
- * @str: string to check
+ * is_number - checks if string is a valid integer
+ * @str: input string
  *
  * Return: 1 if valid integer, 0 otherwise
  */
@@ -10,11 +10,14 @@ int is_number(char *str)
 {
 	int i = 0;
 
-	if (str == NULL)
+	if (!str)
 		return (0);
 
 	if (str[0] == '-')
 		i++;
+
+	if (str[i] == '\0')
+		return (0);
 
 	for (; str[i]; i++)
 	{

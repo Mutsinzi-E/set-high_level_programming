@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "monty.h"
 
 stack_t *stack = NULL;
@@ -29,12 +26,12 @@ int main(int ac, char **av)
 	while ((read = getline(&line, &len, file)) != -1)
 	{
 		line_number++;
-
-		/* TODO: parse opcode here */
 		execute(line, &stack, line_number);
 	}
 
 	free(line);
 	fclose(file);
+	free_stack(stack);
+
 	return (0);
 }

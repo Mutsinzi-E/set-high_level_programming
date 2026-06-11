@@ -1,10 +1,10 @@
 #include "monty.h"
 
 /**
- * execute - executes monty instructions
- * @line: current line
+ * execute - executes Monty bytecode instructions
+ * @line: input line
  * @stack: stack head
- * @line_number: current line number
+ * @line_number: line number
  */
 void execute(char *line, stack_t **stack, unsigned int line_number)
 {
@@ -13,6 +13,7 @@ void execute(char *line, stack_t **stack, unsigned int line_number)
 
 	opcode = strtok(line, " \t\n");
 
+	/* ✅ ignore empty lines */
 	if (opcode == NULL || opcode[0] == '#')
 		return;
 
@@ -22,24 +23,20 @@ void execute(char *line, stack_t **stack, unsigned int line_number)
 
 		if (value == NULL || !is_number(value))
 		{
-			fprintf(stderr,
-				"L%u: usage: push integer\n",
-				line_number);
+			fprintf(stderr, "L%u: usage: push integer\n", line_number);
 			exit(EXIT_FAILURE);
 		}
 
 		push_stack(stack, atoi(value));
+		return;
 	}
-	else if (strcmp(opcode, "pall") == 0)
+
+	if (strcmp(opcode, "pall") == 0)
 	{
 		pall_stack(stack);
+		return;
 	}
-	else
-	{
-		fprintf(stderr,
-			"L%u: unknown instruction %s\n",
-			line_number,
-			opcode);
-		exit(EXIT_FAILURE);
-	}
+
+	fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
+	exit(EXIT_FAILURE);
 }
