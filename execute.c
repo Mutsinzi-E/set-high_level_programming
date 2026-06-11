@@ -1,9 +1,9 @@
 #include "monty.h"
 
 /**
- * execute - executes Monty opcodes
- * @line: line read from file
- * @stack: pointer to stack
+ * execute - executes monty instructions
+ * @line: current line
+ * @stack: stack head
  * @line_number: current line number
  */
 void execute(char *line, stack_t **stack, unsigned int line_number)

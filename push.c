@@ -1,9 +1,9 @@
 #include "monty.h"
 
 /**
- * push_stack - pushes an element to the stack
- * @head: pointer to stack head
- * @n: value to store
+ * push_stack - pushes an element onto the stack
+ * @head: stack head
+ * @n: value to push
  */
 void push_stack(stack_t **head, int n)
 {

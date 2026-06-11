@@ -2,7 +2,7 @@
 
 /**
  * pall_stack - prints all stack values
- * @head: pointer to stack head
+ * @head: stack head
  */
 void pall_stack(stack_t **head)
 {
