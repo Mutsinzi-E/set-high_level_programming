@@ -29,10 +29,12 @@ int main(int argc, char **argv)
         line_number++;
 
         opcode = strtok(line, " \t\n");
+        if (!opcode || opcode[0] == '#')
+            continue;
+
         arg = strtok(NULL, " \t\n");
 
-        if (opcode)
-            execute(opcode, arg, &stack, line_number);
+        execute(opcode, arg, &stack, line_number);
     }
 
     free(line);
