@@ -1,18 +1,14 @@
 # Monty Project
 
-This project is a simple interpreter for Monty bytecode files.
+This project implements a Monty Bytecode interpreter in C.
 
 ## Features
-- push opcode: pushes an integer onto the stack
-- pall opcode: prints all values on the stack
-- Handles errors like:
-  - invalid push arguments
-  - unknown instructions
-  - file opening errors
-  - usage errors
+- push opcode: pushes an integer to the stack
+- pall opcode: prints all stack values
+- pop opcode: removes top element
 
 ## Compilation
 gcc -Wall -Werror -Wextra -pedantic *.c -o monty
 
 ## Usage
-./monty file.m
+./monty bytecodes/file.m
