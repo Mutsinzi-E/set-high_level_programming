@@ -1,14 +1,17 @@
-# Monty Project
+# Hash Tables Project
 
-This project implements a Monty Bytecode interpreter in C.
+This project implements a hash table in C using:
+- djb2 hashing algorithm
+- separate chaining for collision handling
 
-## Features
-- push opcode: pushes an integer to the stack
-- pall opcode: prints all stack values
-- pop opcode: removes top element
+## Files
+
+- 0-hash_table_create.c → creates hash table
+- 1-djb2.c → hash function
+- 2-key_index.c → compute index
+- 3-hash_table_set.c → insert key/value pairs
+- hash_tables.h → header file
 
 ## Compilation
-gcc -Wall -Werror -Wextra -pedantic *.c -o monty
 
-## Usage
-./monty bytecodes/file.m
+gcc -Wall -pedantic -Werror -Wextra -std=gnu89 *.c -o test
