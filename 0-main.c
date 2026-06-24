@@ -1,36 +1,17 @@
-#include "main.h"
-#include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
+#include <stdio.h>
+#include "hash_tables.h"
 
 /**
- * main - check the code
- *
- * Return: Always 0.
+ * main - test hash table creation
  */
 int main(void)
 {
-    char *c;
-    int *i;
-    float *f;
-    double *d;
+    hash_table_t *ht;
 
-    c = malloc_checked(sizeof(char) * 1024);
-    printf("%p\n", (void *)c);
+    ht = hash_table_create(1024);
 
-    i = malloc_checked(sizeof(int) * 402);
-    printf("%p\n", (void *)i);
-
-    f = malloc_checked(sizeof(float) * 100000000);
-    printf("%p\n", (void *)f);
-
-    d = malloc_checked(INT_MAX);
-    printf("%p\n", (void *)d);
-
-    free(c);
-    free(i);
-    free(f);
-    free(d);
+    printf("%p\n", (void *)ht);
 
     return (0);
 }
