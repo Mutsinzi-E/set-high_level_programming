@@ -1,0 +1,65 @@
+#include "hash_tables.h"
+#include <string.h>
+#include <stdlib.h>
+
+/**
+ * shash_table_set - adds or updates a key/value pair in sorted hash table
+ * @ht: hash table
+ * @key: key string
+ * @value: value string
+ *
+ * Return: 1 on success, 0 on failure
+ */
+int shash_table_set(shash_table_t *ht, const char *key, const char *value)
+{
+	shash_node_t *node, *tmp;
+	char *k, *v;
+	unsigned long int index;
+
+	if (!ht || !key || !*key || !value)
+		return (0);
+
+	index = key_index((const unsigned char *)key, ht->size);
+	tmp = ht->array[index];
+
+	while (tmp)
+	{
+		if (strcmp(tmp->key, key) == 0)
+		{
+			v = strdup(value);
+			if (!v)
+				return (0);
+			free(tmp->value);
+			tmp->value = v;
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+
+	node = malloc(sizeof(shash_node_t));
+	if (!node)
+		return (0);
+
+	k = strdup(key);
+	v = strdup(value);
+
+	if (!k || !v)
+	{
+		free(node);
+		if (k)
+			free(k);
+		if (v)
+			free(v);
+		return (0);
+	}
+
+	node->key = k;
+	node->value = v;
+	node->next = ht->array[index];
+	ht->array[index] = node;
+
+	/* sorted insertion */
+	sorted_insert(ht, node);
+
+	return (1);
+}
