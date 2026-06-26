@@ -3,9 +3,7 @@
 #include <stdio.h>
 #include "hash_tables.h"
 
-/**
- * create_node - creates a new sorted hash node
- */
+/* ---------------- CREATE NODE ---------------- */
 static shash_node_t *create_node(const char *key, const char *value)
 {
 	shash_node_t *node;
@@ -15,16 +13,12 @@ static shash_node_t *create_node(const char *key, const char *value)
 		return (NULL);
 
 	node->key = strdup(key);
-	if (!node->key)
-	{
-		free(node);
-		return (NULL);
-	}
-
 	node->value = strdup(value);
-	if (!node->value)
+
+	if (!node->key || !node->value)
 	{
 		free(node->key);
+		free(node->value);
 		free(node);
 		return (NULL);
 	}
@@ -36,12 +30,14 @@ static shash_node_t *create_node(const char *key, const char *value)
 	return (node);
 }
 
-/**
- * shash_table_create - creates a sorted hash table
- */
+/* ---------------- CREATE TABLE ---------------- */
 shash_table_t *shash_table_create(unsigned long int size)
 {
 	shash_table_t *ht;
+	unsigned long int i;
+
+	if (size == 0)
+		return (NULL);
 
 	ht = malloc(sizeof(shash_table_t));
 	if (!ht)
@@ -58,29 +54,29 @@ shash_table_t *shash_table_create(unsigned long int size)
 	ht->shead = NULL;
 	ht->stail = NULL;
 
+	for (i = 0; i < size; i++)
+		ht->array[i] = NULL;
+
 	return (ht);
 }
 
-/**
- * insert_sorted - inserts node in sorted linked list
- */
+/* ---------------- SORT INSERT ---------------- */
 static void insert_sorted(shash_table_t *ht, shash_node_t *node)
 {
-	shash_node_t *current;
+	shash_node_t *curr;
 
-	if (ht->shead == NULL)
+	if (!ht->shead)
 	{
-		ht->shead = node;
-		ht->stail = node;
+		ht->shead = ht->stail = node;
 		return;
 	}
 
-	current = ht->shead;
+	curr = ht->shead;
 
-	while (current && strcmp(node->key, current->key) > 0)
-		current = current->snext;
+	while (curr && strcmp(node->key, curr->key) > 0)
+		curr = curr->snext;
 
-	if (current == ht->shead)
+	if (curr == ht->shead)
 	{
 		node->snext = ht->shead;
 		ht->shead->sprev = node;
@@ -88,7 +84,7 @@ static void insert_sorted(shash_table_t *ht, shash_node_t *node)
 		return;
 	}
 
-	if (current == NULL)
+	if (!curr)
 	{
 		node->sprev = ht->stail;
 		ht->stail->snext = node;
@@ -96,32 +92,35 @@ static void insert_sorted(shash_table_t *ht, shash_node_t *node)
 		return;
 	}
 
-	node->snext = current;
-	node->sprev = current->sprev;
-	current->sprev->snext = node;
-	current->sprev = node;
+	node->snext = curr;
+	node->sprev = curr->sprev;
+	curr->sprev->snext = node;
+	curr->sprev = node;
 }
 
-/**
- * shash_table_set - adds or updates key/value pair
- */
+/* ---------------- SET ---------------- */
 int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 {
 	unsigned long int index;
 	shash_node_t *node, *tmp;
 
-	if (!ht || !key || *key == '\0')
+	if (!ht || !key || *key == '\0' || !value)
 		return (0);
 
 	index = key_index((const unsigned char *)key, ht->size);
 
 	tmp = ht->array[index];
+
 	while (tmp)
 	{
 		if (strcmp(tmp->key, key) == 0)
 		{
+			char *new_value = strdup(value);
+			if (!new_value)
+				return (0);
+
 			free(tmp->value);
-			tmp->value = strdup(value);
+			tmp->value = new_value;
 			return (1);
 		}
 		tmp = tmp->next;
@@ -139,9 +138,7 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 	return (1);
 }
 
-/**
- * shash_table_get - retrieves value by key
- */
+/* ---------------- GET ---------------- */
 char *shash_table_get(const shash_table_t *ht, const char *key)
 {
 	unsigned long int index;
@@ -164,9 +161,7 @@ char *shash_table_get(const shash_table_t *ht, const char *key)
 	return (NULL);
 }
 
-/**
- * shash_table_print - prints sorted hash table
- */
+/* ---------------- PRINT ---------------- */
 void shash_table_print(const shash_table_t *ht)
 {
 	shash_node_t *tmp;
@@ -176,8 +171,8 @@ void shash_table_print(const shash_table_t *ht)
 		return;
 
 	printf("{");
-
 	tmp = ht->shead;
+
 	while (tmp)
 	{
 		if (!first)
@@ -186,13 +181,10 @@ void shash_table_print(const shash_table_t *ht)
 		first = 0;
 		tmp = tmp->snext;
 	}
-
 	printf("}\n");
 }
 
-/**
- * shash_table_print_rev - prints reverse order
- */
+/* ---------------- PRINT REV ---------------- */
 void shash_table_print_rev(const shash_table_t *ht)
 {
 	shash_node_t *tmp;
@@ -202,8 +194,8 @@ void shash_table_print_rev(const shash_table_t *ht)
 		return;
 
 	printf("{");
-
 	tmp = ht->stail;
+
 	while (tmp)
 	{
 		if (!first)
@@ -212,13 +204,10 @@ void shash_table_print_rev(const shash_table_t *ht)
 		first = 0;
 		tmp = tmp->sprev;
 	}
-
 	printf("}\n");
 }
 
-/**
- * shash_table_delete - frees the entire table
- */
+/* ---------------- DELETE ---------------- */
 void shash_table_delete(shash_table_t *ht)
 {
 	shash_node_t *tmp, *next;
