@@ -15,11 +15,13 @@ typedef struct listint_s
 	struct listint_s *next;
 } listint_t;
 
-/* REQUIRED PROTOTYPES */
-
+/* BASIC FUNCTIONS */
 listint_t *add_nodeint_end(listint_t **head, const int n);
 void print_listint(const listint_t *h);
 int pop_listint(listint_t **head);
 void free_listint2(listint_t **head);
 
-#endif
+/* TASK 7 */
+listint_t *get_nodeint_at_index(listint_t *head, unsigned int index);
+
+#endif /* LISTS_H */
