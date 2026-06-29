@@ -5,8 +5,8 @@
 #include <stdio.h>
 
 /**
- * struct listint_s - singly linked list node
- * @n: integer stored in node
+ * struct listint_s - singly linked list
+ * @n: integer
  * @next: pointer to next node
  */
 typedef struct listint_s
@@ -47,5 +47,8 @@ listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n);
 
 /* Task 10 */
 int delete_nodeint_at_index(listint_t **head, unsigned int index);
+
+/* Task 100 */
+listint_t *reverse_listint(listint_t **head);
 
 #endif
