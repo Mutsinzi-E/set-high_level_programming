@@ -2,4 +2,4 @@
 str1 = "object-oriented"
 str2 = "programming"
 str3 = "with Python"
-print(f"{str1} {str2} {str3}")
+print(str1, str2, str3)
