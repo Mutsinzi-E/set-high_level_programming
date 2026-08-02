@@ -1,13 +1,18 @@
-Test cases for MyList class
+The ``1-my_list`` module
+========================
 
-1. Instantiate MyList.
-2. Verify MyList inherits from list.
-3. Verify append() works correctly.
-4. Verify __str__ displays the list correctly.
-5. Verify print_sorted() prints a sorted list.
-6. Verify print_sorted() does not modify the original list.
-7. Verify print_sorted() works with an already sorted list.
-8. Verify print_sorted() works with an unsorted list.
-9. Verify print_sorted() works with negative integers.
-10. Verify print_sorted() works with an empty list.
-11. Verify print_sorted() returns None and only prints the sorted list.
+Using ``MyList``
+
+    >>> MyList = __import__("1-my_list").MyList
+    >>> my_list = MyList()
+    >>> my_list.append(1)
+    >>> my_list.append(4)
+    >>> my_list.append(2)
+    >>> my_list.append(3)
+    >>> my_list.append(5)
+    >>> print(my_list)
+    [1, 4, 2, 3, 5]
+    >>> my_list.print_sorted()
+    [1, 2, 3, 4, 5]
+    >>> print(my_list)
+    [1, 4, 2, 3, 5]
