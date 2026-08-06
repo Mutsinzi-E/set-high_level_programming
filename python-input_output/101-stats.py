@@ -1,49 +1,43 @@
 #!/usr/bin/python3
-"""Log parsing script."""
+"""Script that parses logs from stdin."""
 
 import sys
 
-
-def print_stats(total_size, status_codes):
-    """Print the log statistics."""
-    print("File size: {}".format(total_size))
-
-    for code in sorted(status_codes):
-        print("{}: {}".format(code, status_codes[code]))
-
-
+status_count = {}
 total_size = 0
-status_codes = {}
 line_count = 0
+valid_status = ["200", "301", "400", "401", "403", "404", "405", "500"]
 
-valid_codes = [200, 301, 400, 401, 403, 404, 405, 500]
+
+def print_stats():
+    """Print accumulated statistics."""
+    print("File size: {}".format(total_size))
+    for code in valid_status:
+        if code in status_count:
+            print("{}: {}".format(code, status_count[code]))
+
 
 try:
     for line in sys.stdin:
+        line_count += 1
         parts = line.split()
 
         try:
-            status = int(parts[-2])
-            size = int(parts[-1])
+            total_size += int(parts[-1])
+        except (IndexError, ValueError):
+            pass
 
-            if status in valid_codes:
-                total_size += size
+        try:
+            status = parts[-2]
+            if status in valid_status:
+                status_count[status] = status_count.get(status, 0) + 1
+        except IndexError:
+            pass
 
-                if status not in status_codes:
-                    status_codes[status] = 0
-
-                status_codes[status] += 1
-                line_count += 1
-
-                if line_count == 10:
-                    print_stats(total_size, status_codes)
-                    line_count = 0
-
-        except (ValueError, IndexError):
-            continue
+        if line_count % 10 == 0:
+            print_stats()
 
 except KeyboardInterrupt:
-    print_stats(total_size, status_codes)
-    sys.exit(0)
-
-print_stats(total_size, status_codes)
+    pass
+finally:
+    print_stats()
