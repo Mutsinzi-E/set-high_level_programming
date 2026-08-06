@@ -22,6 +22,7 @@ try:
     for line in sys.stdin:
         parts = line.split()
 
+        # Ignore invalid log formats
         if len(parts) < 7:
             continue
 
@@ -29,6 +30,7 @@ try:
             status = int(parts[-2])
             size = int(parts[-1])
 
+            # Ignore unknown status codes
             if status not in valid_codes:
                 continue
 
@@ -51,5 +53,5 @@ except KeyboardInterrupt:
     print_stats(total_size, status_codes)
     sys.exit(0)
 
-if line_count != 0:
-    print_stats(total_size, status_codes)
+# Always print final statistics
+print_stats(total_size, status_codes)
