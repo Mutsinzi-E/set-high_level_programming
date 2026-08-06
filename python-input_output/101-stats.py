@@ -5,7 +5,7 @@ import sys
 
 
 def print_stats(total_size, status_codes):
-    """Print statistics."""
+    """Print the log statistics."""
     print("File size: {}".format(total_size))
 
     for code in sorted(status_codes):
@@ -22,36 +22,28 @@ try:
     for line in sys.stdin:
         parts = line.split()
 
-        # Ignore invalid log formats
-        if len(parts) < 7:
-            continue
-
         try:
             status = int(parts[-2])
             size = int(parts[-1])
 
-            # Ignore unknown status codes
-            if status not in valid_codes:
-                continue
+            if status in valid_codes:
+                total_size += size
 
-            total_size += size
+                if status not in status_codes:
+                    status_codes[status] = 0
 
-            if status not in status_codes:
-                status_codes[status] = 0
+                status_codes[status] += 1
+                line_count += 1
 
-            status_codes[status] += 1
-            line_count += 1
+                if line_count == 10:
+                    print_stats(total_size, status_codes)
+                    line_count = 0
 
-            if line_count == 10:
-                print_stats(total_size, status_codes)
-                line_count = 0
-
-        except ValueError:
+        except (ValueError, IndexError):
             continue
 
 except KeyboardInterrupt:
     print_stats(total_size, status_codes)
     sys.exit(0)
 
-# Always print final statistics
 print_stats(total_size, status_codes)
