@@ -1,0 +1,52 @@
+========================================
+0. Integers Addition
+========================================
+
+>>> add_integer = __import__('0-add_integer').add_integer
+
+Basic addition:
+
+    >>> add_integer(1, 2)
+    3
+
+    >>> add_integer(100, -2)
+    98
+
+Using the default value of b:
+
+    >>> add_integer(2)
+    100
+
+Floats are cast to integers:
+
+    >>> add_integer(100.3, -2)
+    98
+
+    >>> add_integer(10.9, 2.9)
+    12
+
+Negative floats:
+
+    >>> add_integer(-10.9, 2.9)
+    -8
+
+Invalid value for b:
+
+    >>> add_integer(4, "School")
+    Traceback (most recent call last):
+    ...
+    TypeError: b must be an integer
+
+Invalid value for a:
+
+    >>> add_integer(None)
+    Traceback (most recent call last):
+    ...
+    TypeError: a must be an integer
+
+Boolean values are not accepted:
+
+    >>> add_integer(True, 2)
+    Traceback (most recent call last):
+    ...
+    TypeError: a must be an integer
