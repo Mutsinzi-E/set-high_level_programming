@@ -1,0 +1,61 @@
+>>> text_indentation = __import__('5-text_indentation').text_indentation
+
+>>> text_indentation("Hello world.")
+Hello world.
+<BLANKLINE>
+
+>>> text_indentation("Hello world?")
+Hello world?
+<BLANKLINE>
+
+>>> text_indentation("Hello world:")
+Hello world:
+<BLANKLINE>
+
+>>> text_indentation("Hello. How are you? I am fine: thank you.")
+Hello.
+<BLANKLINE>
+How are you?
+<BLANKLINE>
+I am fine:
+<BLANKLINE>
+thank you.
+<BLANKLINE>
+
+>>> text_indentation("  Hello world.  ")
+Hello world.
+<BLANKLINE>
+
+>>> text_indentation("Hello.    World.")
+Hello.
+<BLANKLINE>
+World.
+<BLANKLINE>
+
+>>> text_indentation("Hello")
+Hello
+
+>>> text_indentation("")
+    
+>>> text_indentation(123)
+Traceback (most recent call last):
+...
+TypeError: text must be a string
+
+>>> text_indentation(None)
+Traceback (most recent call last):
+...
+TypeError: text must be a string
+
+>>> text_indentation(3.14)
+Traceback (most recent call last):
+...
+TypeError: text must be a string
+
+>>> text_indentation("Hello:World?Test.")
+Hello:
+<BLANKLINE>
+World?
+<BLANKLINE>
+Test.
+<BLANKLINE>
