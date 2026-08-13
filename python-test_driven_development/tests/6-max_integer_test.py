@@ -16,6 +16,10 @@ class TestMaxInteger(unittest.TestCase):
         """Test a list in random order."""
         self.assertEqual(max_integer([1, 3, 4, 2]), 4)
 
+    def test_max_at_beginning(self):
+        """Test when the maximum integer is at the beginning."""
+        self.assertEqual(max_integer([10, 5, 3, 1]), 10)
+
     def test_negative_numbers(self):
         """Test a list containing negative numbers."""
         self.assertEqual(max_integer([-4, -2, -10, -1]), -1)
