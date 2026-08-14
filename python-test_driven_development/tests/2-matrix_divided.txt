@@ -73,3 +73,7 @@ Result is a new matrix:
 [[1.0, 2.0], [3.0, 4.0]]
 >>> result is matrix
 False
+Division by positive infinity:
+
+>>> matrix_divided([[1, 2], [3, 4]], float('inf'))
+[[0.0, 0.0], [0.0, 0.0]]
