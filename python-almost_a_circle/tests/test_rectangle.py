@@ -185,3 +185,19 @@ class TestRectangleArea(unittest.TestCase):
 
         r3 = Rectangle(8, 7, 0, 0, 12)
         self.assertEqual(r3.area(), 56)
+
+
+class TestRectangleDisplay(unittest.TestCase):
+    """Test Rectangle display."""
+
+    def test_display(self):
+        """Test display output."""
+        from io import StringIO
+        from unittest.mock import patch
+
+        r = Rectangle(2, 3)
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            r.display()
+
+        self.assertEqual(output.getvalue(), "##\n##\n##\n")
