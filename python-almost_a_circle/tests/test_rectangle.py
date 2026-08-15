@@ -315,3 +315,35 @@ class TestRectangleUpdateArgs(unittest.TestCase):
         self.assertEqual(r.height, 10)
         self.assertEqual(r.x, 10)
         self.assertEqual(r.y, 10)
+
+
+class TestRectangleDictionary(unittest.TestCase):
+    """Test Rectangle dictionary representation."""
+
+    def test_to_dictionary(self):
+        """Test to_dictionary."""
+        r = Rectangle(10, 2, 1, 9)
+        expected = {
+            "id": r.id,
+            "width": 10,
+            "height": 2,
+            "x": 1,
+            "y": 9
+        }
+
+        self.assertEqual(r.to_dictionary(), expected)
+        self.assertIsInstance(r.to_dictionary(), dict)
+
+    def test_dictionary_can_update_rectangle(self):
+        """Test dictionary can update another Rectangle."""
+        r1 = Rectangle(10, 2, 1, 9)
+        r2 = Rectangle(1, 1)
+
+        r2.update(**r1.to_dictionary())
+
+        self.assertEqual(r2.id, r1.id)
+        self.assertEqual(r2.width, r1.width)
+        self.assertEqual(r2.height, r1.height)
+        self.assertEqual(r2.x, r1.x)
+        self.assertEqual(r2.y, r1.y)
+        self.assertIsNot(r1, r2)
