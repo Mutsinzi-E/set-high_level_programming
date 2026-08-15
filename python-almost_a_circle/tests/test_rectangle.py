@@ -225,3 +225,37 @@ class TestRectangleStr(unittest.TestCase):
 
         r2 = Rectangle(5, 5, 1, 0, 1)
         self.assertEqual(str(r2), "[Rectangle] (1) 1/0 - 5/5")
+
+
+class TestRectangleDisplayXY(unittest.TestCase):
+    """Test Rectangle display with x and y."""
+
+    def test_display_with_x_y(self):
+        """Test display takes x and y into account."""
+        from io import StringIO
+        from unittest.mock import patch
+
+        r = Rectangle(2, 3, 2, 2)
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            r.display()
+
+        self.assertEqual(
+            output.getvalue(),
+            "\n\n  ##\n  ##\n  ##\n"
+        )
+
+    def test_display_with_x_only(self):
+        """Test display with x and no y."""
+        from io import StringIO
+        from unittest.mock import patch
+
+        r = Rectangle(3, 2, 1, 0)
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            r.display()
+
+        self.assertEqual(
+            output.getvalue(),
+            " ###\n ###\n"
+        )
