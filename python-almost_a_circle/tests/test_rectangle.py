@@ -201,3 +201,27 @@ class TestRectangleDisplay(unittest.TestCase):
             r.display()
 
         self.assertEqual(output.getvalue(), "##\n##\n##\n")
+
+
+class TestRectangleStr(unittest.TestCase):
+    """Test Rectangle __str__."""
+
+    def test_str(self):
+        """Test string representation."""
+        r1 = Rectangle(4, 6, 2, 1, 12)
+        self.assertEqual(str(r1), "[Rectangle] (12) 2/1 - 4/6")
+
+        r2 = Rectangle(5, 5, 1, 0, 1)
+        self.assertEqual(str(r2), "[Rectangle] (1) 1/0 - 5/5")
+
+
+class TestRectangleStr(unittest.TestCase):
+    """Test Rectangle __str__."""
+
+    def test_str(self):
+        """Test string representation."""
+        r1 = Rectangle(4, 6, 2, 1, 12)
+        self.assertEqual(str(r1), "[Rectangle] (12) 2/1 - 4/6")
+
+        r2 = Rectangle(5, 5, 1, 0, 1)
+        self.assertEqual(str(r2), "[Rectangle] (1) 1/0 - 5/5")
