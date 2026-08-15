@@ -259,3 +259,59 @@ class TestRectangleDisplayXY(unittest.TestCase):
             output.getvalue(),
             " ###\n ###\n"
         )
+
+
+class TestRectangleUpdateArgs(unittest.TestCase):
+    """Test Rectangle update with non-keyword arguments."""
+
+    def test_update_id(self):
+        """Test update id."""
+        r = Rectangle(10, 10, 10, 10)
+        r.update(89)
+        self.assertEqual(r.id, 89)
+
+    def test_update_width(self):
+        """Test update width."""
+        r = Rectangle(10, 10, 10, 10)
+        r.update(89, 2)
+        self.assertEqual(r.id, 89)
+        self.assertEqual(r.width, 2)
+
+    def test_update_height(self):
+        """Test update height."""
+        r = Rectangle(10, 10, 10, 10)
+        r.update(89, 2, 3)
+        self.assertEqual(r.height, 3)
+
+    def test_update_x(self):
+        """Test update x."""
+        r = Rectangle(10, 10, 10, 10)
+        r.update(89, 2, 3, 4)
+        self.assertEqual(r.x, 4)
+
+    def test_update_y(self):
+        """Test update y."""
+        r = Rectangle(10, 10, 10, 10)
+        r.update(89, 2, 3, 4, 5)
+        self.assertEqual(r.y, 5)
+
+    def test_update_all(self):
+        """Test update all attributes."""
+        r = Rectangle(10, 10, 10, 10)
+        r.update(89, 2, 3, 4, 5)
+
+        self.assertEqual(r.id, 89)
+        self.assertEqual(r.width, 2)
+        self.assertEqual(r.height, 3)
+        self.assertEqual(r.x, 4)
+        self.assertEqual(r.y, 5)
+
+    def test_update_no_args(self):
+        """Test update with no arguments."""
+        r = Rectangle(10, 10, 10, 10)
+        r.update()
+
+        self.assertEqual(r.width, 10)
+        self.assertEqual(r.height, 10)
+        self.assertEqual(r.x, 10)
+        self.assertEqual(r.y, 10)
