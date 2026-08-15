@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Rectangle class."""
+"""Defines the Rectangle class."""
+
 from models.base import Base
 
 
@@ -16,97 +17,40 @@ class Rectangle(Base):
 
     @property
     def width(self):
-        """Get width."""
+        """Get the width."""
         return self.__width
 
     @width.setter
     def width(self, value):
-        """Set width."""
-        if type(value) is not int:
-            raise TypeError("width must be an integer")
-        if value <= 0:
-            raise ValueError("width must be > 0")
+        """Set the width."""
         self.__width = value
 
     @property
     def height(self):
-        """Get height."""
+        """Get the height."""
         return self.__height
 
     @height.setter
     def height(self, value):
-        """Set height."""
-        if type(value) is not int:
-            raise TypeError("height must be an integer")
-        if value <= 0:
-            raise ValueError("height must be > 0")
+        """Set the height."""
         self.__height = value
 
     @property
     def x(self):
-        """Get x."""
+        """Get the x coordinate."""
         return self.__x
 
     @x.setter
     def x(self, value):
-        """Set x."""
-        if type(value) is not int:
-            raise TypeError("x must be an integer")
-        if value < 0:
-            raise ValueError("x must be >= 0")
+        """Set the x coordinate."""
         self.__x = value
 
     @property
     def y(self):
-        """Get y."""
+        """Get the y coordinate."""
         return self.__y
 
     @y.setter
     def y(self, value):
-        """Set y."""
-        if type(value) is not int:
-            raise TypeError("y must be an integer")
-        if value < 0:
-            raise ValueError("y must be >= 0")
+        """Set the y coordinate."""
         self.__y = value
-
-    def area(self):
-        """Return the rectangle area."""
-        return self.width * self.height
-
-    def display(self):
-        """Print the rectangle using # characters."""
-        for _ in range(self.y):
-            print()
-        for _ in range(self.height):
-            print(" " * self.x + "#" * self.width)
-
-    def __str__(self):
-        """Return printable representation."""
-        return "[Rectangle] ({}) {}/{} - {}/{}".format(
-            self.id, self.x, self.y, self.width, self.height
-        )
-
-    def update(self, *args, **kwargs):
-        """Update attributes."""
-        attributes = ["id", "width", "height", "x", "y"]
-
-        if args:
-            for index, value in enumerate(args):
-                if index < len(attributes):
-                    setattr(self, attributes[index], value)
-
-        else:
-            for key, value in kwargs.items():
-                if key in attributes:
-                    setattr(self, key, value)
-
-    def to_dictionary(self):
-        """Return dictionary representation."""
-        return {
-            "id": self.id,
-            "width": self.width,
-            "height": self.height,
-            "x": self.x,
-            "y": self.y,
-        }
