@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Defines the Base class."""
 
+import csv
 import json
 
 
@@ -71,3 +72,67 @@ class Base:
 
         return [cls.create(**dictionary)
                 for dictionary in list_dictionaries]
+
+    @classmethod
+    def save_to_file_csv(cls, list_objs):
+        """Serialize objects to a CSV file."""
+        filename = cls.__name__ + ".csv"
+
+        with open(filename, "w", newline="") as file:
+            writer = csv.writer(file)
+
+            if list_objs is None:
+                return
+
+            for obj in list_objs:
+                if cls.__name__ == "Rectangle":
+                    writer.writerow([
+                        obj.id,
+                        obj.width,
+                        obj.height,
+                        obj.x,
+                        obj.y
+                    ])
+                elif cls.__name__ == "Square":
+                    writer.writerow([
+                        obj.id,
+                        obj.size,
+                        obj.x,
+                        obj.y
+                    ])
+
+    @classmethod
+    def load_from_file_csv(cls):
+        """Deserialize objects from a CSV file."""
+        filename = cls.__name__ + ".csv"
+
+        try:
+            with open(filename, "r", newline="") as file:
+                reader = csv.reader(file)
+                instances = []
+
+                for row in reader:
+                    if cls.__name__ == "Rectangle":
+                        instances.append(
+                            cls(
+                                int(row[1]),
+                                int(row[2]),
+                                int(row[3]),
+                                int(row[4]),
+                                int(row[0])
+                            )
+                        )
+                    elif cls.__name__ == "Square":
+                        instances.append(
+                            cls(
+                                int(row[1]),
+                                int(row[2]),
+                                int(row[3]),
+                                int(row[0])
+                            )
+                        )
+
+                return instances
+
+        except FileNotFoundError:
+            return []
